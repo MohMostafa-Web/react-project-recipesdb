@@ -1,0 +1,25 @@
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+/* import pages */
+import Home from "./pages/Home";
+import About from "./pages/About";
+import SingleRecipe from "./pages/SingleRecipe";
+import Error from "./pages/Error";
+/* import components */
+import Navbar from "./components/Navbar";
+
+function App() {
+  return (
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="about" element={<About />} />
+        <Route path="recipe/:id" element={<SingleRecipe />}></Route>
+        <Route path="*" element={<Error />} />
+      </Routes>
+    </>
+  );
+}
+
+export default App;

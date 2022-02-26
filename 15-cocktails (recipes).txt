@@ -1,0 +1,139 @@
+> We used:
+
+  - using "react-router-dom" package:
+
+    -- to render Components according to path <Router path="pathName" element={<ComponentName />} />
+    -- using Component "Link" to connect anchor tag with path
+    -- using "useParams()" to destructure keyname "id" from URL Params
+
+  - using "React.createContext()", Provider, "useContext()" or Custom Hook "useGlobalContext" to Create and Pass Context API
+
+  - "useState()" Hook for changing:
+
+      -- "loading" boolean value
+      -- "recipes" array value
+      -- "searchTerm" string value
+
+  - "useEffect()" Hook to fetch data oncetime at initial render
+      -- using axios.get().then().catch(); to fetch Data
+      -- to focus on input at initial render
+
+  - using "map()":
+
+      -- Loop over "recipes" Array to destructure every item with simple properties name
+      -- To render and list Array "recipes" items as <Recipe />
+      -- To render and list Array "ingredients" items as span element
+
+  - Destructuring props or object to make it easily to render
+
+  - Destructuring properties names of recipe with simple names
+      then Create new object "newRecipe" contains new simple properties names
+
+  - using "useRef()" Hook to control input value and focus
+
+
+
+> How to Create and Pass Context API: (For Example)
+
+  - Create file "context.js" which contains AppContext, AppProvider:
+
+      import React, { useContext } from "react";
+
+      export const AppContext = React.createContext();
+
+      export const AppProvider = ({children}) => {
+        return <AppContext.Provider value="Hello">{children}</AppContext.Provider>
+      }
+
+      /* Create custom hook "useGlobalContext" by using useContext() */
+      export const useGlobalContext = () => {
+        return useContext(AppContext);
+      }
+
+  - you need to wrap App Main Component inside <appProvider></appProvider>
+
+      [1] inside "App.js" file:
+
+            function App() {
+              return (
+                <>
+                  <appProvider>
+                    <Home />
+                    <Modal />
+                    <Sidebar />
+                  </appProvider>
+                </>
+              )
+            }
+
+            export default App
+
+      [2] or inside "index.js" file:
+
+            ReactDOM.render(
+              <React.StrictMode>
+                <appProvider>
+                  <App />
+                </appProvider>
+              </React.StrictMode>,
+              document.getElementById('root')
+            );
+
+  - To consume context value:
+
+      [1] using "useContext()" Hook:
+
+            import React, { useContext } from "react";
+            import { FaBars } from "react-icons/fa";
+            import { AppContext } from "./context";
+
+            const Home = () => {
+              const contextValue = useContext(AppContext)
+
+              return (
+                <main>
+                  <button className="sidebar-toggle">
+                    <FaBars />
+                  </button>
+                  <button className="btn">show modal {contextValue}</button>
+                </main>
+              );
+            };
+
+            export default Home;
+
+      [2] or using custom hook "useGlobalContext()":
+
+            import React, { useContext } from "react";
+            import { FaBars } from "react-icons/fa";
+            import { useGlobalContext } from "./context";
+
+            const Home = () => {
+              const contextValue = useGlobalContext();
+
+              return (
+                <main>
+                  <button className="sidebar-toggle">
+                    <FaBars />
+                  </button>
+                  <button className="btn">show modal {contextValue}</button>
+                </main>
+              );
+            };
+
+            export default Home;
+
+
+> Note:
+
+  - if you make a destructuring for Array, you must put all values
+
+  - if you make a destructuring for object, you don't need to put all values
+
+  - if you call function without parameters inside "onClick", you must don't need to add arrow function body:
+
+      onClick={functionName}
+
+  - if you call function with parameters inside "onClick", you must add arrow function body:
+
+      onClick={() => functionName(param)}
